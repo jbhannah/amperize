@@ -1,0 +1,33 @@
+{
+  "name": "amperize",
+  "version": "0.0.1",
+  "description": "AMP up your plain HTML",
+  "main": "./lib/amperize",
+  "scripts": {
+    "test": "mocha $(find test -name '*.test.js')",
+    "watch": "mocha --watch $(find test -name '*.test.js')",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- $(find test -name '*.test.js')",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- $(find test -name '*.test.js')"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbhannah/amperize.git"
+  },
+  "keywords": [
+    "amp",
+    "html"
+  ],
+  "author": "Jesse B. Hannah <jesse@jbhannah.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jbhannah/amperize/issues"
+  },
+  "homepage": "https://github.com/jbhannah/amperize#readme",
+  "devDependencies": {
+    "chai": "3.4.0",
+    "istanbul": "0.4.0",
+    "mocha": "2.3.3",
+    "sinon": "1.17.2",
+    "sinon-chai": "2.8.0"
+  }
+}
