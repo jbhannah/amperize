@@ -50,6 +50,17 @@ describe('helpers', function () {
     });
   });
 
+  describe('#directive', function () {
+    it('returns the element\'s contents', function () {
+      var el = {
+        type: 'directive',
+        data: '!DOCTYPE html'
+      };
+
+      expect(helpers.directive(el)).to.be.equal('<!DOCTYPE html>');
+    });
+  });
+
   describe('#close', function () {
     it('closes non-singular tags', function () {
       var el = {
