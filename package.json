@@ -1,6 +1,6 @@
 {
   "name": "amperize",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AMP up your plain HTML",
   "main": "./lib/amperize",
   "scripts": {
@@ -23,6 +23,9 @@
     "url": "https://github.com/jbhannah/amperize/issues"
   },
   "homepage": "https://github.com/jbhannah/amperize#readme",
+  "dependencies": {
+    "lodash.merge": "3.3.2"
+  },
   "devDependencies": {
     "chai": "3.4.0",
     "istanbul": "0.4.0",

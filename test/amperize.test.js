@@ -19,9 +19,20 @@ describe('Amperize', function () {
     amperize = void 0;
   });
 
-  describe('is module', function () {
+  describe('is a module', function () {
     it('which has a constructor', function () {
       expect(Amperize).to.be.a('function');
+    });
+
+    it('which has default options', function () {
+      expect(amperize).to.have.property('config');
+      expect(amperize.config).to.be.eql({});
+    });
+
+    it('which can be configured', function () {
+      var configurable = new Amperize({some: 'options'});
+      expect(configurable).to.have.property('config');
+      expect(configurable.config.some).to.be.equal('options');
     });
   });
 });
