@@ -28,6 +28,28 @@ describe('helpers', function () {
     });
   });
 
+  describe('#text', function () {
+    it('returns the element\'s contents', function () {
+      var el = {
+        type: 'text',
+        data: 'some text'
+      };
+
+      expect(helpers.text(el)).to.be.equal('some text');
+    });
+  });
+
+  describe('#comment', function () {
+    it('returns the element\'s contents', function () {
+      var el = {
+        type: 'comment',
+        data: 'some text'
+      };
+
+      expect(helpers.comment(el)).to.be.equal('<!--some text-->');
+    });
+  });
+
   describe('#close', function () {
     it('closes non-singular tags', function () {
       var el = {
