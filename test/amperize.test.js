@@ -65,8 +65,8 @@ describe('Amperize', function () {
     });
 
     it('transforms <img> into <amp-img></amp-img>', function () {
-      amperize.parse('<img src="foo">', function (error, result) {
-        expect(result).to.be.equal('<amp-img src="foo" layout="responsive"></amp-img>');
+      amperize.parse('<img src="http://lorempixel.com/output/abstract-q-c-640-480-3.jpg">', function (error, result) {
+        expect(result).to.be.equal('<amp-img src="http://lorempixel.com/output/abstract-q-c-640-480-3.jpg" layout="responsive" width="640" height="480"></amp-img>');
       });
     });
   });
