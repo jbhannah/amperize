@@ -7,11 +7,12 @@
     "test": "mocha $(find test -name '*.test.js')",
     "watch": "mocha --watch $(find test -name '*.test.js')",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha -- $(find test -name '*.test.js')",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- $(find test -name '*.test.js')"
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- $(find test -name '*.test.js')",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jbhannah/amperize.git"
+    "url": "https://github.com/jbhannah/amperize.git"
   },
   "keywords": [
     "amp",
@@ -33,9 +34,16 @@
   },
   "devDependencies": {
     "chai": "3.4.0",
+    "cz-conventional-changelog": "1.1.4",
     "istanbul": "0.4.0",
     "mocha": "2.3.3",
+    "semantic-release": "4.3.5",
     "sinon": "1.17.2",
     "sinon-chai": "2.8.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
