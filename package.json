@@ -35,7 +35,7 @@
   "devDependencies": {
     "chai": "3.4.1",
     "cz-conventional-changelog": "1.1.5",
-    "istanbul": "0.4.1",
+    "istanbul": "0.4.2",
     "mocha": "2.3.4",
     "semantic-release": "4.3.5",
     "sinon": "1.17.2",
