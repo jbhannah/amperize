@@ -33,7 +33,7 @@
     "node-uuid": "1.4.7"
   },
   "devDependencies": {
-    "chai": "3.4.1",
+    "chai": "3.5.0",
     "cz-conventional-changelog": "1.1.5",
     "istanbul": "0.4.2",
     "mocha": "2.4.3",
