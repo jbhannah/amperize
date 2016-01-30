@@ -29,7 +29,7 @@
     "emits": "3.0.0",
     "htmlparser2": "3.9.0",
     "image-size": "0.4.0",
-    "lodash.merge": "4.0.2",
+    "lodash.merge": "4.0.3",
     "node-uuid": "1.4.7"
   },
   "devDependencies": {
