@@ -36,7 +36,7 @@
     "chai": "3.5.0",
     "cz-conventional-changelog": "1.1.6",
     "istanbul": "0.4.3",
-    "mocha": "2.5.2",
+    "mocha": "2.5.3",
     "semantic-release": "4.3.5",
     "sinon": "1.17.4",
     "sinon-chai": "2.8.0"
