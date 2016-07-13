@@ -64,9 +64,10 @@ describe('Amperize', function () {
       expect(err).throws('No callback provided');
     });
 
-    it('transforms <img> into <amp-img></amp-img>', function () {
-      amperize.parse('<img src="http://lorempixel.com/output/abstract-q-c-640-480-3.jpg">', function (error, result) {
-        expect(result).to.be.equal('<amp-img src="http://lorempixel.com/output/abstract-q-c-640-480-3.jpg" layout="responsive" width="640" height="480"></amp-img>');
+    it('transforms <img> into <amp-img></amp-img>', function (done) {
+      amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
+        expect(result).to.be.equal('<amp-img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256" layout="responsive" width="256" height="256"></amp-img>');
+        done();
       });
     });
   });
