@@ -27,9 +27,14 @@ describe('Amperize', function () {
     it('which has default options', function () {
       expect(amperize).to.have.property('config');
       expect(amperize.config).to.be.eql({
-        img: {
-          layout: 'responsive'
-        }
+          img: {
+            layout: 'responsive'
+          },
+          iframe: {
+            layout: 'responsive',
+            width: 600,
+            height: 400
+          }
       });
     });
 
@@ -56,6 +61,7 @@ describe('Amperize', function () {
   });
 
   describe('#parse', function () {
+    this.timeout(15000);
     it('throws an error if no callback provided', function () {
       function err() {
         amperize.parse('', null);
@@ -64,12 +70,54 @@ describe('Amperize', function () {
       expect(err).throws('No callback provided');
     });
 
-    it('transforms <img> into <amp-img></amp-img>', function (done) {
-      amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
-        expect(result).to.be.equal('<amp-img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256" layout="responsive" width="256" height="256"></amp-img>');
+    it('transforms <img> with layout property into <amp-img></amp-img> without overriding it and full image dimensions', function (done) {
+      amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256" layout="FIXED">', function (error, result) {
+        expect(result).to.contain('<amp-img');
+        expect(result).to.contain('src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
+        expect(result).to.contain('layout="FIXED"');
+        expect(result).to.contain('width="256"');
+        expect(result).to.contain('height="256"');
+        expect(result).to.contain('</amp-img>');
         done();
       });
     });
+
+    it('transforms .gif <img> with only height property into <amp-anim></amp-anim> with full dimensions by overriding them', function (done) {
+      amperize.parse('<img src="https://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif" height="500">', function (error, result) {
+        expect(result).to.contain('<amp-anim');
+        expect(result).to.contain('src="https://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.contain('width="800"');
+        expect(result).to.contain('height="600"');
+        expect(result).to.contain('</amp-anim>');
+        done();
+      });
+    });
+
+    it('transforms <iframe> with only width property into <amp-iframe></amp-iframe> with full dimensions withour overriding them', function (done) {
+      amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" width="400"></iframe>', function (error, result) {
+        expect(result).to.contain('<amp-iframe');
+        expect(result).to.contain('src="https://www.youtube.com/embed/HMQkV5cTuoY"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.contain('width="400"');
+        expect(result).to.contain('height="400"');
+        expect(result).to.contain('</amp-iframe>');
+        done();
+      });
+    });
+
+    it('transforms local <img> into <amp-img></amp-img> without image dimensions', function (done) {
+      amperize.parse('<img src="/content/images/IMG_xyz.jpg">', function (error, result) {
+        expect(result).to.contain('<amp-img');
+        expect(result).to.contain('src="/content/images/IMG_xyz.jpg"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.not.contain('width');
+        expect(result).to.not.contain('height');
+        expect(result).to.contain('</amp-img>');
+        done();
+      });
+    });
+
   });
 
   describe('#amperizer', function () {
