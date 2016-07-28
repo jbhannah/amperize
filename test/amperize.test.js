@@ -4,7 +4,9 @@ var chai = require('chai')
   , expect = chai.expect
   , sinon = require('sinon')
   , sinonChai = require('sinon-chai')
-  , Amperize = require('../lib/amperize')
+  , nock = require('nock')
+  , rewire = require('rewire')
+  , Amperize = rewire('../lib/amperize')
   , amperize;
 
 chai.use(sinonChai);
@@ -28,12 +30,15 @@ describe('Amperize', function () {
       expect(amperize).to.have.property('config');
       expect(amperize.config).to.be.eql({
           img: {
-            layout: 'responsive'
+            layout: 'responsive',
+            width: 600,
+            height: 400,
           },
           iframe: {
             layout: 'responsive',
             width: 600,
-            height: 400
+            height: 400,
+            sandbox: 'allow-scripts allow-same-origin'
           }
       });
     });
@@ -61,7 +66,18 @@ describe('Amperize', function () {
   });
 
   describe('#parse', function () {
-    this.timeout(15000);
+    var sizeOfMock,
+        sizeOfStub;
+
+    beforeEach(function () {
+        // stubbing the `image-size` lib, so we don't to a request everytime
+        sizeOfStub = sinon.stub();
+    });
+
+    afterEach(function () {
+        sinon.restore();
+    });
+
     it('throws an error if no callback provided', function () {
       function err() {
         amperize.parse('', null);
@@ -71,19 +87,39 @@ describe('Amperize', function () {
     });
 
     it('transforms <img> with layout property into <amp-img></amp-img> without overriding it and full image dimensions', function (done) {
+      sizeOfMock = nock('http://static.wixstatic.com')
+            .get('/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256')
+            .reply(200, {
+                data: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
+            });
+
+      sizeOfStub.returns({width: 50, height: 50, type: 'jpg'});
+      Amperize.__set__('sizeOf', sizeOfStub);
+
       amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256" layout="FIXED">', function (error, result) {
+        expect(result).to.exist;
         expect(result).to.contain('<amp-img');
         expect(result).to.contain('src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
         expect(result).to.contain('layout="FIXED"');
-        expect(result).to.contain('width="256"');
-        expect(result).to.contain('height="256"');
+        expect(result).to.contain('width="50"');
+        expect(result).to.contain('height="50"');
         expect(result).to.contain('</amp-img>');
         done();
       });
     });
 
     it('transforms .gif <img> with only height property into <amp-anim></amp-anim> with full dimensions by overriding them', function (done) {
+      sizeOfMock = nock('https://media.giphy.com')
+            .get('/media/l46CtzgjhTm29Cbjq/giphy.gif')
+            .reply(200, {
+                data: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
+            });
+
+      sizeOfStub.returns({width: 800, height: 600, type: 'gif'});
+      Amperize.__set__('sizeOf', sizeOfStub);
+
       amperize.parse('<img src="https://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif" height="500">', function (error, result) {
+        expect(result).to.exist;
         expect(result).to.contain('<amp-anim');
         expect(result).to.contain('src="https://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif"');
         expect(result).to.contain('layout="responsive"');
@@ -96,23 +132,94 @@ describe('Amperize', function () {
 
     it('transforms <iframe> with only width property into <amp-iframe></amp-iframe> with full dimensions withour overriding them', function (done) {
       amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" width="400"></iframe>', function (error, result) {
+        expect(result).to.exist;
         expect(result).to.contain('<amp-iframe');
         expect(result).to.contain('src="https://www.youtube.com/embed/HMQkV5cTuoY"');
         expect(result).to.contain('layout="responsive"');
         expect(result).to.contain('width="400"');
         expect(result).to.contain('height="400"');
         expect(result).to.contain('</amp-iframe>');
+        expect(result).to.contain('sandbox="allow-scripts allow-same-origin"')
         done();
       });
     });
 
-    it('transforms local <img> into <amp-img></amp-img> without image dimensions', function (done) {
+    it('adds \'https\' protocol to <iframe> if no protocol is supplied (e. e. giphy)', function (done) {
+      var url = '<iframe src="//giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>';
+      amperize.parse(url, function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-iframe');
+        expect(result).to.contain('src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.contain('width="480"');
+        expect(result).to.contain('height="372"');
+        expect(result).to.contain('</amp-iframe>');
+        expect(result).to.contain('sandbox="allow-scripts allow-same-origin"')
+        done();
+      });
+    });
+
+    it('adds \'https\' protocol to <iframe> if only \'http\' protocol is supplied', function (done) {
+      var url = '<iframe src="http://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/afv-funny-fail-lol-3oEduKP4VaUxJvLwuA">via GIPHY</a></p></p>';
+      amperize.parse(url, function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-iframe');
+        expect(result).to.contain('src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.contain('width="480"');
+        expect(result).to.contain('height="372"');
+        expect(result).to.contain('</amp-iframe>');
+        expect(result).to.contain('sandbox="allow-scripts allow-same-origin"')
+        done();
+      });
+    });
+
+    it('transforms local <img> into <amp-img></amp-img> with default image dimensions', function (done) {
       amperize.parse('<img src="/content/images/IMG_xyz.jpg">', function (error, result) {
+        expect(result).to.exist;
         expect(result).to.contain('<amp-img');
         expect(result).to.contain('src="/content/images/IMG_xyz.jpg"');
         expect(result).to.contain('layout="responsive"');
-        expect(result).to.not.contain('width');
-        expect(result).to.not.contain('height');
+        expect(result).to.contain('width="600"');
+        expect(result).to.contain('height="400"');
+        expect(result).to.contain('</amp-img>');
+        done();
+      });
+    });
+
+    it('can handle request errors by falling back to the default values defined in config', function (done) {
+      sizeOfMock = nock('http://example.com')
+            .get('/images/IMG_xyz.jpg')
+            .replyWithError('something awful happened');
+
+      amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-img');
+        expect(result).to.contain('src="http://example.com/images/IMG_xyz.jpg"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.contain('width="600"');
+        expect(result).to.contain('height="400"');
+        expect(result).to.contain('</amp-img>');
+        done();
+      });
+    });
+
+    it('can handle errors of image-size module by falling back to the default values defined in config', function (done) {
+      sizeOfMock = nock('http://example.com')
+            .get('/images/IMG_xyz.jpg')
+            .reply(200, {
+                data: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
+            });
+      sizeOfStub.throws('Not found');
+      Amperize.__set__('sizeOf', sizeOfStub);
+
+      amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-img');
+        expect(result).to.contain('src="http://example.com/images/IMG_xyz.jpg"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.contain('width="600"');
+        expect(result).to.contain('height="400"');
         expect(result).to.contain('</amp-img>');
         done();
       });
