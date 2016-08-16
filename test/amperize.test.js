@@ -187,6 +187,20 @@ describe('Amperize', function () {
       });
     });
 
+    it('can handle <img> tag without src', function (done) {
+      amperize.parse('<img>', function (error, result) {
+        expect(result).to.not.exist;
+        done();
+      });
+    });
+
+    it('can handle <iframe> tag without src', function (done) {
+      amperize.parse('<iframe>', function (error, result) {
+        expect(result).to.not.exist;
+        done();
+      });
+    });
+
     it('can handle request errors by falling back to the default values defined in config', function (done) {
       sizeOfMock = nock('http://example.com')
             .get('/images/IMG_xyz.jpg')
