@@ -187,16 +187,50 @@ describe('Amperize', function () {
       });
     });
 
-    it('can handle <img> tag without src', function (done) {
-      amperize.parse('<img>', function (error, result) {
-        expect(result).to.not.exist;
+    it('can handle <img> tag without src and does not transform it', function (done) {
+      amperize.parse('<img><//img><p>some text here</p>', function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.be.equal('<img><p>some text here</p>');
         done();
       });
     });
 
-    it('can handle <iframe> tag without src', function (done) {
+    it('can handle <iframe> tag without src and does not transform it', function (done) {
       amperize.parse('<iframe>', function (error, result) {
-        expect(result).to.not.exist;
+        expect(result).to.exist;
+        expect(result).to.be.equal('<iframe></iframe>');
+        done();
+      });
+    });
+
+    it('transforms <audio> with a fallback to <amp-audio>', function (done) {
+      amperize.parse('<audio src="http://foo.mp3" autoplay>Your browser does not support the <code>audio</code> element.</audio>', function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-audio src="https://foo.mp3" autoplay="">');
+        expect(result).to.contain('Your browser does not support the <code>audio</code> element.');
+        expect(result).to.contain('</amp-audio>');
+        done();
+      });
+    });
+
+    it('transforms <audio> with a <source> tag to <amp-audio> and maintains the attributes', function (done) {
+      amperize.parse('<audio controls="controls" width="auto" height="50" autoplay="mobile">Your browser does not support the <code>audio</code> element.<source src="//foo.wav" type="audio/wav"></audio>', function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-audio');
+        expect(result).to.contain('controls="controls" width="auto" height="50" autoplay="mobile"');
+        expect(result).to.contain('<source src="https://foo.wav" type="audio/wav">');
+        expect(result).to.contain('</amp-audio>');
+        done();
+      });
+    });
+
+    it('transforms <audio> with a <track> tag to <amp-audio>', function (done) {
+      amperize.parse('<audio src="foo.ogg"><track kind="captions" src="https://foo.en.vtt" srclang="en" label="English"><track kind="captions" src="https://foo.sv.vtt" srclang="sv" label="Svenska"></audio>', function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-audio src="foo.ogg">');
+        expect(result).to.contain('<track kind="captions" src="https://foo.en.vtt" srclang="en" label="English">');
+        expect(result).to.contain('<track kind="captions" src="https://foo.sv.vtt" srclang="sv" label="Svenska">');
+        expect(result).to.contain('</amp-audio>');
         done();
       });
     });
