@@ -29,12 +29,17 @@ describe('Amperize', function () {
     it('which has default options', function () {
       expect(amperize).to.have.property('config');
       expect(amperize.config).to.be.eql({
-          img: {
+          'amp-img': {
             layout: 'responsive',
             width: 600,
             height: 400,
           },
-          iframe: {
+          'amp-anim': {
+            layout: 'responsive',
+            width: 600,
+            height: 400,
+          },
+          'amp-iframe': {
             layout: 'responsive',
             width: 600,
             height: 400,
@@ -86,7 +91,7 @@ describe('Amperize', function () {
       expect(err).throws('No callback provided');
     });
 
-    it('transforms <img> with layout property into <amp-img></amp-img> without overriding it and full image dimensions', function (done) {
+    it('transforms small <img> into <amp-img></amp-img> with full image dimensions and fixed layout', function (done) {
       sizeOfMock = nock('http://static.wixstatic.com')
             .get('/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256')
             .reply(200, {
@@ -96,13 +101,35 @@ describe('Amperize', function () {
       sizeOfStub.returns({width: 50, height: 50, type: 'jpg'});
       Amperize.__set__('sizeOf', sizeOfStub);
 
-      amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256" layout="FIXED">', function (error, result) {
+      amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
         expect(result).to.exist;
         expect(result).to.contain('<amp-img');
         expect(result).to.contain('src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
-        expect(result).to.contain('layout="FIXED"');
+        expect(result).to.contain('layout="fixed"');
         expect(result).to.contain('width="50"');
         expect(result).to.contain('height="50"');
+        expect(result).to.contain('</amp-img>');
+        done();
+      });
+    });
+
+    it('transforms big <img> into <amp-img></amp-img> with full image dimensions and responsive layout', function (done) {
+      sizeOfMock = nock('http://static.wixstatic.com')
+            .get('/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256')
+            .reply(200, {
+                data: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
+            });
+
+      sizeOfStub.returns({width: 350, height: 200, type: 'jpg'});
+      Amperize.__set__('sizeOf', sizeOfStub);
+
+      amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
+        expect(result).to.exist;
+        expect(result).to.contain('<amp-img');
+        expect(result).to.contain('src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
+        expect(result).to.contain('layout="responsive"');
+        expect(result).to.contain('width="350"');
+        expect(result).to.contain('height="200"');
         expect(result).to.contain('</amp-img>');
         done();
       });
