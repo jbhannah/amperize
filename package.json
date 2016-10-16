@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/jbhannah/amperize#readme",
   "dependencies": {
-    "async": "2.0.1",
+    "async": "2.1.2",
     "emits": "3.0.0",
     "htmlparser2": "3.9.1",
     "image-size": "0.5.0",
