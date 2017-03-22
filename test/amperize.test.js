@@ -282,9 +282,8 @@ describe('Amperize', function () {
 
       amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
         expect(Amperize.__get__('called')).to.be.equal(true);
-        expect(error).to.exist;
-        expect(error.message).to.contain('something awful happened');
-        expect(result).to.not.exist;
+        expect(error).to.be.null;
+        expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
         done();
       });
     });
@@ -300,9 +299,8 @@ describe('Amperize', function () {
 
       amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
         expect(Amperize.__get__('called')).to.be.equal(true);
-        expect(error).to.exist;
-        expect(error.message.name).to.contain('error');
-        expect(result).to.not.exist;
+        expect(error).to.be.null;
+        expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
         done();
       });
     });
@@ -317,9 +315,8 @@ describe('Amperize', function () {
 
       amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
         expect(Amperize.__get__('called')).to.be.equal(true);
-        expect(error).to.exist;
-        expect(error.message).to.contain('Timeout while trying to fetch image sizes.');
-        expect(result).to.not.exist;
+        expect(error).to.be.null;
+        expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
         done();
       });
     });
