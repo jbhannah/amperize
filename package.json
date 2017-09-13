@@ -25,23 +25,25 @@
   },
   "homepage": "https://github.com/jbhannah/amperize#readme",
   "dependencies": {
-    "async": "2.1.4",
-    "emits": "3.0.0",
-    "htmlparser2": "3.9.2",
+    "async": "^2.1.4",
+    "emits": "^3.0.0",
+    "got": "^7.1.0",
+    "htmlparser2": "^3.9.2",
     "image-size": "0.5.1",
-    "lodash.merge": "4.6.0",
+    "lodash": "^4.17.4",
     "nock": "^9.0.2",
     "rewire": "^2.5.2",
-    "uuid": "^3.0.0"
+    "uuid": "^3.0.0",
+    "validator": "^8.2.0"
   },
   "devDependencies": {
-    "chai": "3.5.0",
+    "chai": "^3.5.0",
     "cz-conventional-changelog": "1.2.0",
-    "istanbul": "0.4.5",
-    "mocha": "3.2.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
     "semantic-release": "6.3.2",
-    "sinon": "1.17.7",
-    "sinon-chai": "2.8.0"
+    "sinon": "^1.17.7",
+    "sinon-chai": "^2.8.0"
   },
   "config": {
     "commitizen": {
