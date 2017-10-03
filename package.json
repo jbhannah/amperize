@@ -1,6 +1,6 @@
 {
   "name": "amperize",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "AMP up your plain HTML",
   "main": "./lib/amperize",
   "scripts": {
