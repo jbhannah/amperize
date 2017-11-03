@@ -1,5 +1,7 @@
 # Amperize
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jbhannah/amperize.svg)](https://greenkeeper.io/)
+
 [![Version npm][version]](http://browsenpm.org/package/amperize)
 [![Build Status][build]](https://travis-ci.org/jbhannah/amperize)
 [![Dependencies][david]](https://david-dm.org/jbhannah/amperize)
