@@ -8,7 +8,7 @@
     "watch": "mocha --watch $(find test -name '*.test.js')",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha -- $(find test -name '*.test.js')",
     "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- $(find test -name '*.test.js')",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release"
   },
   "engines": {
     "node": "^4.5.0 || ^6.9.0 || ^8.9.0"
@@ -32,21 +32,21 @@
     "emits": "^3.0.0",
     "got": "^7.1.0",
     "htmlparser2": "^3.9.2",
-    "image-size": "0.5.1",
+    "image-size": "0.6.1",
     "lodash": "^4.17.4",
-    "nock": "^9.0.2",
-    "rewire": "^2.5.2",
     "uuid": "^3.0.0",
-    "validator": "^8.2.0"
+    "validator": "^9.1.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "cz-conventional-changelog": "1.2.0",
+    "chai": "^4.1.2",
+    "cz-conventional-changelog": "2.1.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "semantic-release": "6.3.2",
-    "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0"
+    "mocha": "^4.0.1",
+    "semantic-release": "9.1.0",
+    "sinon": "1.17.7",
+    "sinon-chai": "^2.8.0",
+    "nock": "^9.0.2",
+    "rewire": "^2.5.2"
   },
   "config": {
     "commitizen": {
