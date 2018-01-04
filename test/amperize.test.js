@@ -177,6 +177,31 @@ describe('Amperize', function () {
             });
         });
 
+        it('transforms <img> into <amp-img> when no file extension is given', function (done) {
+            // This test is mocked, but works with this specific example.
+            // You can comment out the mocks and the test should still pass.
+            sizeOfMock = nock('https://www.zomato.com')
+                .matchHeader('User-Agent', /Mozilla\/.*Safari\/.*/)
+                .get('/logo/18163505/minilogo')
+                .reply(200, {
+                    body: '<Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 00 68 00 00 00 0f 08 02 00 00 00 87 8f 1d 14 00 00 03 33 49 44 41 54 58 c3 ed 97 6b 48 93 51 18>'
+                });
+
+            sizeOfStub.returns({width: 104, height: 15, type: 'png'});
+            Amperize.__set__('sizeOf', sizeOfStub);
+
+            amperize.parse('<img src="https://www.zomato.com/logo/18163505/minilogo">', function (error, result) {
+                expect(result).to.exist;
+                expect(result).to.contain('<amp-img');
+                expect(result).to.contain('src="https://www.zomato.com/logo/18163505/minilogo"');
+                expect(result).to.contain('layout="fixed"');
+                expect(result).to.contain('width="104"');
+                expect(result).to.contain('height="15"');
+                expect(result).to.contain('</amp-img>');
+                done();
+            });
+        });
+
         it('returns largest image value for .ico files', function (done) {
             sizeOfMock = nock('https://somewebsite.com')
                 .get('/favicon.ico')

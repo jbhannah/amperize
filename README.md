@@ -19,13 +19,12 @@ var Amperize = require('amperize');
 
 var html = '<img src="https://example.com/image.jpg" />';
 
-amperize = new Amperize();
+var amperize = new Amperize();
 
 amperize.parse(html, function (error, result) {
     if (error) {
-            // do something with error
-            return new Error(err);
-        }
+        // do something with error
+        return new Error(err);
     }
     // do something with result
     return result;
