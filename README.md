@@ -4,6 +4,7 @@
 [![Build Status](http://img.shields.io/travis/jbhannah/amperize/master.svg?style=flat)](https://travis-ci.org/jbhannah/amperize)
 [![Dependencies](https://img.shields.io/david/jbhannah/amperize.svg?style=flat)](https://david-dm.org/jbhannah/amperize)
 [![Coverage Status](http://img.shields.io/coveralls/jbhannah/amperize/master.svg?style=flat)](https://coveralls.io/r/jbhannah/amperize?branch=master)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjbhannah%2Famperize.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjbhannah%2Famperize?ref=badge_shield)
 
 [AMP](https://github.com/ampproject/amphtml) up your plain HTML. Replaces regular HTML tags with their equivalent
 [AMP components](https://github.com/ampproject/amphtml/blob/master/spec/amp-html-components.md).
@@ -97,3 +98,7 @@ Borrows heavily from [Minimize](https://github.com/Swaagie/minimize), especially
 `amperizer`, and `traverse` functions in the `Amperize` object, and the unit
 tests. Copyright (c) 2013 Moveo - Martijn Swaagman. Used under the MIT License
 (see `LICENSE`).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjbhannah%2Famperize.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjbhannah%2Famperize?ref=badge_large)
