@@ -513,10 +513,10 @@ describe('Amperize', function () {
                     body: ''
                 },
                 {
-                    location: 'http://someredirectedurl.com/files/f/feedough/x/11/1540353_20925115.jpg'
+                    location: 'https://someredirectedurl.com/files/f/feedough/x/11/1540353_20925115.jpg'
                 });
 
-            secondImageSizeMock = nock('http://someredirectedurl.com')
+            secondImageSizeMock = nock('https://someredirectedurl.com')
                 .get('/files/f/feedough/x/11/1540353_20925115.jpg')
                 .reply(200, GIF1x1);
 
