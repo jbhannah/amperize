@@ -446,7 +446,7 @@ describe('Amperize', function () {
         it('can handle invalid URLs', function (done) {
             amperize.parse('<img src="https:not-a-website">', function (error, result) {
                 expect(result).to.exist;
-                expect(result).to.be.equal('<img src="http:not-a-website">');
+                expect(result).to.be.equal('');
                 done();
             });
         });
@@ -536,7 +536,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
+                expect(result).to.contain('');
                 done();
             });
         });
@@ -549,7 +549,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
+                expect(result).to.contain('');
                 done();
             });
         });
@@ -565,7 +565,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
+                expect(result).to.contain('');
                 done();
             });
         });
