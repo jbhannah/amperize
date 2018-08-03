@@ -123,7 +123,7 @@ describe('Amperize', function () {
         });
 
         it('transforms big <img> into <amp-img></amp-img> with full image dimensions and responsive layout', function (done) {
-            imageSizeMock = nock('http://static.wixstatic.com')
+            imageSizeMock = nock('https://static.wixstatic.com')
                 .get('/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -132,10 +132,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 350, height: 200, type: 'jpg'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
+            amperize.parse('<img src="https://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
+                expect(result).to.contain('src="https://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="350"');
                 expect(result).to.contain('height="200"');
@@ -145,7 +145,7 @@ describe('Amperize', function () {
         });
 
         it('transforms <img> into <amp-img></amp-img> when width and height is set and overwrites it', function (done) {
-            imageSizeMock = nock('http://somestockwebsite.com')
+            imageSizeMock = nock('https://somestockwebsite.com')
                 .get('/image.jpg')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -154,10 +154,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 350, height: 200, type: 'jpg'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="http://somestockwebsite.com/image.jpg" width="100" height="50">', function (error, result) {
+            amperize.parse('<img src="https://somestockwebsite.com/image.jpg" width="100" height="50">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="http://somestockwebsite.com/image.jpg"');
+                expect(result).to.contain('src="https://somestockwebsite.com/image.jpg"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="350"');
                 expect(result).to.contain('height="200"');
@@ -167,7 +167,7 @@ describe('Amperize', function () {
         });
 
         it('transforms <img> into <amp-img></amp-img> does not overwrite layout attribute', function (done) {
-            imageSizeMock = nock('http://somestockwebsite.com')
+            sizeOfMock = nock('https://somestockwebsite.com')
                 .get('/image.jpg')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -176,10 +176,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 350, height: 200, type: 'jpg'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="http://somestockwebsite.com/image.jpg" layout="fixed">', function (error, result) {
+            amperize.parse('<img src="https://somestockwebsite.com/image.jpg" layout="fixed">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="http://somestockwebsite.com/image.jpg"');
+                expect(result).to.contain('src="https://somestockwebsite.com/image.jpg"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="350"');
                 expect(result).to.contain('height="200"');
@@ -301,7 +301,7 @@ describe('Amperize', function () {
             imageSizeMock = nock('http://example.com')
                 .get('/image.jpg')
                 .reply(200, GIF1x1);
-            
+
             secondImageSizeMock = nock('http://example.com')
                 .get('/image.jpg')
                 .reply(200, GIF1x1);
@@ -408,7 +408,7 @@ describe('Amperize', function () {
         });
 
         it('adds \'https\' protocol to <iframe> if only \'http\' protocol is supplied', function (done) {
-            var url = '<iframe src="http://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/afv-funny-fail-lol-3oEduKP4VaUxJvLwuA">via GIPHY</a></p></p>';
+            var url = '<iframe src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/afv-funny-fail-lol-3oEduKP4VaUxJvLwuA">via GIPHY</a></p></p>';
             amperize.parse(url, function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-iframe');
@@ -444,7 +444,7 @@ describe('Amperize', function () {
         });
 
         it('can handle invalid URLs', function (done) {
-            amperize.parse('<img src="http:not-a-website">', function (error, result) {
+            amperize.parse('<img src="https:not-a-website">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.be.equal('<img src="http:not-a-website">');
                 done();
