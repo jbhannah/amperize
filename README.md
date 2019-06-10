@@ -43,9 +43,9 @@ Amperize is build to convert the `<body>` part of your HTML. It will **not** cre
 
 **[`<amp-img>` reference](https://ampbyexample.com/components/amp-img/)**
 
-Amperize will convert common `<img>` tags into AMP HTML conform `<amp-img>` tags. With the sub-dependency [`image-size`](https://github.com/image-size/image-size), Amperize will fetch the necessary `width` and `height` properties for the given image.
+Amperize will convert common `<img>` tags into AMP HTML conform `<amp-img>` tags. With the sub-dependencies [`probe-image-size](https://github.com/nodeca/probe-image-size) and [`image-size`](https://github.com/image-size/image-size), Amperize will fetch the necessary `width` and `height` properties for the given image.
 
-It will fall back to the default values `width: 600` and `height: 400`, if the dimensions couldn't get fetched.
+It will fall back to the default values `width: 600` and `height: 400`, if the dimensions couldn't be fetched.
 
 If any other error occurs (eg. missing `src` property), Amperize will not transform the tag and return the original.
 
@@ -59,13 +59,13 @@ When the `<img>` tag that needs to be transformed, is a `.gif` animation, Amperi
 
 **[`<amp-iframe>` reference](https://ampbyexample.com/components/amp-iframe/)**
 
-Amperize converts iFrames like embedded videos from YouTube, Vimeo, etc. into `<amp-iframe>` tags.
+Amperize converts iFrames like embedded videos from YouTube, Vimeo, etc. into `<amp-iframe>` tags. If the `src` attribute is an `http` URL it will be switched to `https` in order to pass AMP validation.
 
 ### `<amp-audio>`
 
 **[`<amp-audio>` reference](https://ampbyexample.com/components/amp-audio/)**
 
-Converts HTML `<audio>` into `<amp-audio>`.
+Converts HTML `<audio>` into `<amp-audio>`. If the `src` attribute is an `http` URL it will be switched to `https` in order to pass AMP validation.
 
 ## Development
 
