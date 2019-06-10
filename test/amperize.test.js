@@ -439,6 +439,18 @@ describe('Amperize', function () {
             });
         });
 
+        it('transforms all src urls in <amp-audio> to https', function (done) {
+            amperize.parse('<audio src="//foo.ogg"><source type="audio/mpeg" src="http://foo.mp3"><track kind="captions" src="http://foo.en.vtt" srclang="en" label="English"><track kind="captions" src="http://foo.sv.vtt" srclang="sv" label="Svenska"></audio>', function (error, result) {
+                expect(result).to.exist;
+                expect(result).to.contain('<amp-audio src="https://foo.ogg">');
+                expect(result).to.contain('<source type="audio/mpeg" src="https://foo.mp3">');
+                expect(result).to.contain('<track kind="captions" src="https://foo.en.vtt" srclang="en" label="English">');
+                expect(result).to.contain('<track kind="captions" src="https://foo.sv.vtt" srclang="sv" label="Svenska">');
+                expect(result).to.contain('</amp-audio>');
+                done();
+            });
+        })
+
         it('can handle redirects', function (done) {
             var secondImageSizeMock;
             var GIF1x1 = Buffer.from('R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', 'base64');
