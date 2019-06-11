@@ -225,6 +225,40 @@ describe('Amperize', function () {
             });
         });
 
+        it('falls back to image-size for unprobable images (uppercase extension)', function (done) {
+            imageSizeMock = nock('https://somewebsite.com')
+                .get('/favicon.ICO')
+                .replyWithFile(200, path.join(__dirname, 'fixtures/multi-size.ico'));
+
+            amperize.parse('<img src="https://somewebsite.com/favicon.ICO">', function (error, result) {
+                expect(result).to.exist;
+                expect(result).to.contain('<amp-img');
+                expect(result).to.contain('src="https://somewebsite.com/favicon.ICO"');
+                expect(result).to.contain('layout="fixed"');
+                expect(result).to.contain('width="256"');
+                expect(result).to.contain('height="256"');
+                expect(result).to.contain('</amp-img>');
+                done();
+            });
+        });
+
+        it('falls back to image-size for unprobable images (query param)', function (done) {
+            imageSizeMock = nock('https://somewebsite.com')
+                .get('/favicon.ICO?v=1')
+                .replyWithFile(200, path.join(__dirname, 'fixtures/multi-size.ico'));
+
+            amperize.parse('<img src="https://somewebsite.com/favicon.ICO?v=1">', function (error, result) {
+                expect(result).to.exist;
+                expect(result).to.contain('<amp-img');
+                expect(result).to.contain('src="https://somewebsite.com/favicon.ICO?v=1"');
+                expect(result).to.contain('layout="fixed"');
+                expect(result).to.contain('width="256"');
+                expect(result).to.contain('height="256"');
+                expect(result).to.contain('</amp-img>');
+                done();
+            });
+        });
+
         it('returns largest image value for .ico files', function (done) {
             imageSizeMock = nock('https://somewebsite.com')
                 .get('/favicon.ico')
