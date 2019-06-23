@@ -379,6 +379,22 @@ describe('Amperize', function () {
             });
         });
 
+        it('transforms <iframe> with youtube URL to <amp-youtube></amp-youtube> removing disallowed attributes', function (done) {
+            amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" allowfullscreen frameborder="0" allow="" height="400"></iframe>', function (error, result) {
+                expect(result).to.exist;
+                expect(result).to.contain('<amp-youtube');
+                expect(result).to.contain('data-videoid="HMQkV5cTuoY"');
+                expect(result).to.contain('layout="responsive"');
+                expect(result).to.contain('width="600"');
+                expect(result).to.contain('height="400"');
+                expect(result).to.contain('</amp-youtube>');
+                expect(result).to.not.contain('allowfullscreen');
+                expect(result).to.not.contain('frameborder');
+                expect(result).to.not.contain('allow');
+                done();
+            });
+        });
+
         it('transforms <iframe> with sandbox property into <amp-iframe></amp-iframe> with full dimensions without overriding them', function (done) {
             amperize.parse('<iframe src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA" sandbox="allow-scripts"></iframe>', function (error, result) {
                 expect(result).to.exist;
