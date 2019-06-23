@@ -48,7 +48,8 @@ describe('Amperize', function () {
                     layout: 'responsive',
                     width: 600,
                     height: 400
-                }
+                },
+                'request_timeout': 3000
             });
         });
 
@@ -444,9 +445,9 @@ describe('Amperize', function () {
         });
 
         it('can handle invalid URLs', function (done) {
-            amperize.parse('<img src="https:not-a-website">', function (error, result) {
+            amperize.parse('<img src="http:not-a-website">', function (error, result) {
                 expect(result).to.exist;
-                expect(result).to.be.equal('');
+                expect(result).to.be.equal('<img src="http:not-a-website">');
                 done();
             });
         });
