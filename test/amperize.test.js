@@ -102,7 +102,7 @@ describe('Amperize', function () {
         });
 
         it('transforms small <img> into <amp-img></amp-img> with full image dimensions and fixed layout', function (done) {
-            imageSizeMock = nock('https://static.wixstatic.com')
+            imageSizeMock = nock('http://static.wixstatic.com')
                 .get('/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -111,10 +111,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 50, height: 50, type: 'jpg'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="https://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
+            amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
+                expect(result).to.contain('src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="50"');
                 expect(result).to.contain('height="50"');
@@ -124,7 +124,7 @@ describe('Amperize', function () {
         });
 
         it('transforms big <img> into <amp-img></amp-img> with full image dimensions and responsive layout', function (done) {
-            imageSizeMock = nock('https://static.wixstatic.com')
+            imageSizeMock = nock('http://static.wixstatic.com')
                 .get('/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -133,10 +133,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 350, height: 200, type: 'jpg'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="https://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
+            amperize.parse('<img src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
+                expect(result).to.contain('src="http://static.wixstatic.com/media/355241_d31358572a2542c5a44738ddcb59e7ea.jpg_256"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="350"');
                 expect(result).to.contain('height="200"');
@@ -146,7 +146,7 @@ describe('Amperize', function () {
         });
 
         it('transforms <img> into <amp-img></amp-img> when width and height is set and overwrites it', function (done) {
-            imageSizeMock = nock('https://somestockwebsite.com')
+            imageSizeMock = nock('http://somestockwebsite.com')
                 .get('/image.jpg')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -155,10 +155,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 350, height: 200, type: 'jpg'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="https://somestockwebsite.com/image.jpg" width="100" height="50">', function (error, result) {
+            amperize.parse('<img src="http://somestockwebsite.com/image.jpg" width="100" height="50">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://somestockwebsite.com/image.jpg"');
+                expect(result).to.contain('src="http://somestockwebsite.com/image.jpg"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="350"');
                 expect(result).to.contain('height="200"');
@@ -168,7 +168,7 @@ describe('Amperize', function () {
         });
 
         it('transforms <img> into <amp-img></amp-img> does not overwrite layout attribute', function (done) {
-            sizeOfMock = nock('https://somestockwebsite.com')
+            sizeOfMock = nock('http://somestockwebsite.com')
                 .get('/image.jpg')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -177,10 +177,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 350, height: 200, type: 'jpg'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="https://somestockwebsite.com/image.jpg" layout="fixed">', function (error, result) {
+            amperize.parse('<img src="http://somestockwebsite.com/image.jpg" layout="fixed">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://somestockwebsite.com/image.jpg"');
+                expect(result).to.contain('src="http://somestockwebsite.com/image.jpg"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="350"');
                 expect(result).to.contain('height="200"');
@@ -192,7 +192,7 @@ describe('Amperize', function () {
         it('transforms <img> into <amp-img> when no file extension is given', function (done) {
             // This test is mocked, but works with this specific example.
             // You can comment out the mocks and the test should still pass.
-            imageSizeMock = nock('https://www.zomato.com')
+            imageSizeMock = nock('http://www.zomato.com')
                 .matchHeader('User-Agent', /Mozilla\/.*Safari\/.*/)
                 .get('/logo/18163505/minilogo')
                 .reply(200, {
@@ -202,10 +202,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 104, height: 15, type: 'png'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="https://www.zomato.com/logo/18163505/minilogo">', function (error, result) {
+            amperize.parse('<img src="http://www.zomato.com/logo/18163505/minilogo">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://www.zomato.com/logo/18163505/minilogo"');
+                expect(result).to.contain('src="http://www.zomato.com/logo/18163505/minilogo"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="104"');
                 expect(result).to.contain('height="15"');
@@ -215,14 +215,14 @@ describe('Amperize', function () {
         });
 
         it('falls back to image-size for unprobable images', function (done) {
-            imageSizeMock = nock('https://somewebsite.com')
+            imageSizeMock = nock('http://somewebsite.com')
                 .get('/favicon.ico')
                 .replyWithFile(200, path.join(__dirname, 'fixtures/multi-size.ico'));
 
-            amperize.parse('<img src="https://somewebsite.com/favicon.ico">', function (error, result) {
+            amperize.parse('<img src="http://somewebsite.com/favicon.ico">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://somewebsite.com/favicon.ico"');
+                expect(result).to.contain('src="http://somewebsite.com/favicon.ico"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="256"');
                 expect(result).to.contain('height="256"');
@@ -232,14 +232,14 @@ describe('Amperize', function () {
         });
 
         it('falls back to image-size for unprobable images (uppercase extension)', function (done) {
-            imageSizeMock = nock('https://somewebsite.com')
+            imageSizeMock = nock('http://somewebsite.com')
                 .get('/favicon.ICO')
                 .replyWithFile(200, path.join(__dirname, 'fixtures/multi-size.ico'));
 
-            amperize.parse('<img src="https://somewebsite.com/favicon.ICO">', function (error, result) {
+            amperize.parse('<img src="http://somewebsite.com/favicon.ICO">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://somewebsite.com/favicon.ICO"');
+                expect(result).to.contain('src="http://somewebsite.com/favicon.ICO"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="256"');
                 expect(result).to.contain('height="256"');
@@ -249,14 +249,14 @@ describe('Amperize', function () {
         });
 
         it('falls back to image-size for unprobable images (query param)', function (done) {
-            imageSizeMock = nock('https://somewebsite.com')
+            imageSizeMock = nock('http://somewebsite.com')
                 .get('/favicon.ICO?v=1')
                 .replyWithFile(200, path.join(__dirname, 'fixtures/multi-size.ico'));
 
-            amperize.parse('<img src="https://somewebsite.com/favicon.ICO?v=1">', function (error, result) {
+            amperize.parse('<img src="http://somewebsite.com/favicon.ICO?v=1">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://somewebsite.com/favicon.ICO?v=1"');
+                expect(result).to.contain('src="http://somewebsite.com/favicon.ICO?v=1"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="256"');
                 expect(result).to.contain('height="256"');
@@ -266,7 +266,7 @@ describe('Amperize', function () {
         });
 
         it('returns largest image value for .ico files', function (done) {
-            imageSizeMock = nock('https://somewebsite.com')
+            imageSizeMock = nock('http://somewebsite.com')
                 .get('/favicon.ico')
                 .replyWithFile(200, path.join(__dirname, 'fixtures/multi-size.ico'));
 
@@ -282,10 +282,10 @@ describe('Amperize', function () {
             }));
             resetProbeImageSize = Amperize.__set__('sizeOf', probeImageSizeStub);
 
-            amperize.parse('<img src="https://somewebsite.com/favicon.ico">', function (error, result) {
+            amperize.parse('<img src="http://somewebsite.com/favicon.ico">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-img');
-                expect(result).to.contain('src="https://somewebsite.com/favicon.ico"');
+                expect(result).to.contain('src="http://somewebsite.com/favicon.ico"');
                 expect(result).to.contain('layout="fixed"');
                 expect(result).to.contain('width="48"');
                 expect(result).to.contain('height="48"');
@@ -317,7 +317,7 @@ describe('Amperize', function () {
         });
 
         it('transforms .gif <img> with only height property into <amp-anim></amp-anim> with full dimensions by overriding them', function (done) {
-            imageSizeMock = nock('https://media.giphy.com')
+            imageSizeMock = nock('http://media.giphy.com')
                 .get('/media/l46CtzgjhTm29Cbjq/giphy.gif')
                 .reply(200, {
                     body: '<Buffer 2c be a4 40 f7 87 73 1e 57 2c c1 e4 0d 79 03 95 42 f0 42 2e 41 95 27 c9 5c 35 a7 71 2c 09 5a 57 d3 04 1e 83 03 28 07 96 b0 c8 88 65 07 7a d1 d6 63 50>'
@@ -326,10 +326,10 @@ describe('Amperize', function () {
             probeImageSizeStub.returns(Promise.resolve({width: 800, height: 600, type: 'gif'}));
             resetProbeImageSize = Amperize.__set__('probeImageSize', probeImageSizeStub);
 
-            amperize.parse('<img src="https://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif" height="500">', function (error, result) {
+            amperize.parse('<img src="http://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif" height="500">', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-anim');
-                expect(result).to.contain('src="https://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif"');
+                expect(result).to.contain('src="http://media.giphy.com/media/l46CtzgjhTm29Cbjq/giphy.gif"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="800"');
                 expect(result).to.contain('height="600"');
@@ -577,7 +577,7 @@ describe('Amperize', function () {
 
             imageSizeMock = nock('http://example.com')
                 .get('/images/IMG_xyz.jpg')
-                .delay(3500)
+                .delay(3000)
                 .reply(200, GIF1x1);
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
