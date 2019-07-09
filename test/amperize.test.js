@@ -425,7 +425,7 @@ describe('Amperize', function () {
         });
 
         it('adds \'https\' protocol to <iframe> if only \'http\' protocol is supplied', function (done) {
-            var url = '<iframe src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/afv-funny-fail-lol-3oEduKP4VaUxJvLwuA">via GIPHY</a></p></p>';
+            var url = '<iframe src="http://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/afv-funny-fail-lol-3oEduKP4VaUxJvLwuA">via GIPHY</a></p>';
             amperize.parse(url, function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-iframe');
