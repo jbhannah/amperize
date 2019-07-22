@@ -192,7 +192,7 @@ describe('Amperize', function () {
         it('transforms <img> into <amp-img> when no file extension is given', function (done) {
             // This test is mocked, but works with this specific example.
             // You can comment out the mocks and the test should still pass.
-            imageSizeMock = nock('http://www.zomato.com')
+            imageSizeMock = nock('https://www.zomato.com')
                 .matchHeader('User-Agent', /Mozilla\/.*Safari\/.*/)
                 .get('/logo/18163505/minilogo')
                 .reply(200, {
