@@ -530,10 +530,10 @@ describe('Amperize', function () {
                     body: ''
                 },
                 {
-                    location: 'https://someredirectedurl.com/files/f/feedough/x/11/1540353_20925115.jpg'
+                    location: 'http://someredirectedurl.com/files/f/feedough/x/11/1540353_20925115.jpg'
                 });
 
-            secondImageSizeMock = nock('https://someredirectedurl.com')
+            secondImageSizeMock = nock('http://someredirectedurl.com')
                 .get('/files/f/feedough/x/11/1540353_20925115.jpg')
                 .reply(200, GIF1x1);
 
@@ -553,7 +553,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('');
+                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg">');
                 done();
             });
         });
@@ -566,7 +566,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('');
+                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg">');
                 done();
             });
         });
