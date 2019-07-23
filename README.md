@@ -41,7 +41,7 @@ Amperize is build to convert the `<body>` part of your HTML. It will **not** cre
 
 ### `<amp-img>`
 
-**[`<amp-img>` reference](https://ampbyexample.com/components/amp-img/)**
+**[`<amp-img>` reference](https://amp.dev/documentation/examples/components/amp-img/)**
 
 Amperize will convert common `<img>` tags into AMP HTML conform `<amp-img>` tags. With the sub-dependencies [`probe-image-size](https://github.com/nodeca/probe-image-size) and [`image-size`](https://github.com/image-size/image-size), Amperize will fetch the necessary `width` and `height` properties for the given image.
 
@@ -51,19 +51,25 @@ If any other error occurs (eg. missing `src` property), Amperize will not transf
 
 ### `<amp-anim>`
 
-**[`<amp-anim>` reference](https://ampbyexample.com/components/amp-anim/)**
+**[`<amp-anim>` reference](https://amp.dev/documentation/examples/components/amp-anim/)**
 
 When the `<img>` tag that needs to be transformed, is a `.gif` animation, Amperize will convert it into `<amp-anim>`, following the same rules as for `<amp-img>`.
 
 ### `<amp-iframe>`
 
-**[`<amp-iframe>` reference](https://ampbyexample.com/components/amp-iframe/)**
+**[`<amp-iframe>` reference](https://amp.dev/documentation/examples/components/amp-iframe/)**
 
-Amperize converts iFrames like embedded videos from YouTube, Vimeo, etc. into `<amp-iframe>` tags. If the `src` attribute is an `http` URL it will be switched to `https` in order to pass AMP validation.
+Amperize converts iFrames like embedded videos from Vimeo, etc. into `<amp-iframe>` tags. If the `src` attribute is an `http` URL it will be switched to `https` in order to pass AMP validation.
+
+### `<amp-youtube>`
+
+**[`<amp-youtube>` reference](https://amp.dev/documentation/components/amp-youtube)**
+
+Amperize converts iFrames with a "YouTube" URL into `<amp-youtube>` tags. If the `src` attribute is an `http` URL it will be switched to `https` in order to pass AMP validation.
 
 ### `<amp-audio>`
 
-**[`<amp-audio>` reference](https://ampbyexample.com/components/amp-audio/)**
+**[`<amp-audio>` reference](https://amp.dev/documentation/examples/components/amp-audio/)**
 
 Converts HTML `<audio>` into `<amp-audio>`. If the `src` attribute is an `http` URL it will be switched to `https` in order to pass AMP validation.
 
