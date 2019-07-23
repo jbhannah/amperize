@@ -18,6 +18,8 @@ describe('Amperize', function () {
 
     afterEach(function () {
         amperize = undefined;
+        nock.cleanAll();
+        sinon.restore();
     });
 
     describe('is a module', function () {
@@ -87,10 +89,6 @@ describe('Amperize', function () {
             }
             // stubbing the `probe-probe-image-size` lib, so we don't make a request everytime
             probeImageSizeStub = sinon.stub();
-        });
-
-        afterEach(function () {
-            sinon.restore();
         });
 
         it('throws an error if no callback provided', function () {
@@ -572,12 +570,20 @@ describe('Amperize', function () {
         });
 
         it('can handle timeout errors', function (done) {
-            this.timeout(3500);
             var GIF1x1 = Buffer.from('R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==', 'base64');
 
+            this.timeout(300);
+            amperize = new Amperize({request_timeout: 100});
+
+            // NOTE: nock will compare the delay value with the timeout value used in the underlying `request`
+            // call and immediately fire an ETIMEDOUT event so don't expect test times to match the delay
+            //
+            // Unfortunately nock.cleanAll() does not stop delayed requests so there can be a delay once all tests
+            // finish running whilst waiting for timeouts to finish so it's best to keep delays as short as possible
+            // https://github.com/nock/nock/issues/1118
             imageSizeMock = nock('http://example.com')
                 .get('/images/IMG_xyz.jpg')
-                .delay(3500)
+                .delay(200)
                 .reply(200, GIF1x1);
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
