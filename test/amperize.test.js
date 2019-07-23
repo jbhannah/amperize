@@ -43,7 +43,13 @@ describe('Amperize', function () {
                     width: 600,
                     height: 400,
                     sandbox: 'allow-scripts allow-same-origin'
-                }
+                },
+                'amp-youtube': {
+                    layout: 'responsive',
+                    width: 600,
+                    height: 400
+                },
+                'request_timeout': 3000
             });
         });
 
@@ -296,7 +302,7 @@ describe('Amperize', function () {
             imageSizeMock = nock('http://example.com')
                 .get('/image.jpg')
                 .reply(200, GIF1x1);
-            
+
             secondImageSizeMock = nock('http://example.com')
                 .get('/image.jpg')
                 .reply(200, GIF1x1);
@@ -333,10 +339,10 @@ describe('Amperize', function () {
         });
 
         it('transforms <iframe> with only width property into <amp-iframe></amp-iframe> with full dimensions without overriding them', function (done) {
-            amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" width="400"></iframe>', function (error, result) {
+            amperize.parse('<iframe src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="400"></iframe>', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-iframe');
-                expect(result).to.contain('src="https://www.youtube.com/embed/HMQkV5cTuoY"');
+                expect(result).to.contain('src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="400"');
                 expect(result).to.contain('height="400"');
@@ -347,10 +353,10 @@ describe('Amperize', function () {
         });
 
         it('transforms <iframe> with only height property into <amp-iframe></amp-iframe> with full dimensions without overriding them', function (done) {
-            amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" height="400"></iframe>', function (error, result) {
+            amperize.parse('<iframe src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA" height="400"></iframe>', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-iframe');
-                expect(result).to.contain('src="https://www.youtube.com/embed/HMQkV5cTuoY"');
+                expect(result).to.contain('src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="600"');
                 expect(result).to.contain('height="400"');
@@ -360,11 +366,40 @@ describe('Amperize', function () {
             });
         });
 
+        it('transforms <iframe> with youtube URL to <amp-youtube></amp-youtube>', function (done) {
+            amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" height="400"></iframe>', function (error, result) {
+                expect(result).to.exist;
+                expect(result).to.contain('<amp-youtube');
+                expect(result).to.contain('data-videoid="HMQkV5cTuoY"');
+                expect(result).to.contain('layout="responsive"');
+                expect(result).to.contain('width="600"');
+                expect(result).to.contain('height="400"');
+                expect(result).to.contain('</amp-youtube>');
+                done();
+            });
+        });
+
+        it('transforms <iframe> with youtube URL to <amp-youtube></amp-youtube> removing disallowed attributes', function (done) {
+            amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" allowfullscreen frameborder="0" allow="" height="400"></iframe>', function (error, result) {
+                expect(result).to.exist;
+                expect(result).to.contain('<amp-youtube');
+                expect(result).to.contain('data-videoid="HMQkV5cTuoY"');
+                expect(result).to.contain('layout="responsive"');
+                expect(result).to.contain('width="600"');
+                expect(result).to.contain('height="400"');
+                expect(result).to.contain('</amp-youtube>');
+                expect(result).to.not.contain('allowfullscreen');
+                expect(result).to.not.contain('frameborder');
+                expect(result).to.not.contain('allow');
+                done();
+            });
+        });
+
         it('transforms <iframe> with sandbox property into <amp-iframe></amp-iframe> with full dimensions without overriding them', function (done) {
-            amperize.parse('<iframe src="https://www.youtube.com/embed/HMQkV5cTuoY" sandbox="allow-scripts"></iframe>', function (error, result) {
+            amperize.parse('<iframe src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA" sandbox="allow-scripts"></iframe>', function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-iframe');
-                expect(result).to.contain('src="https://www.youtube.com/embed/HMQkV5cTuoY"');
+                expect(result).to.contain('src="https://giphy.com/embed/3oEduKP4VaUxJvLwuA"');
                 expect(result).to.contain('layout="responsive"');
                 expect(result).to.contain('width="600"');
                 expect(result).to.contain('height="400"');
@@ -390,7 +425,7 @@ describe('Amperize', function () {
         });
 
         it('adds \'https\' protocol to <iframe> if only \'http\' protocol is supplied', function (done) {
-            var url = '<iframe src="http://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/afv-funny-fail-lol-3oEduKP4VaUxJvLwuA">via GIPHY</a></p></p>';
+            var url = '<iframe src="http://giphy.com/embed/3oEduKP4VaUxJvLwuA" width="480" height="372" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/afv-funny-fail-lol-3oEduKP4VaUxJvLwuA">via GIPHY</a></p>';
             amperize.parse(url, function (error, result) {
                 expect(result).to.exist;
                 expect(result).to.contain('<amp-iframe');
@@ -518,7 +553,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
+                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg">');
                 done();
             });
         });
@@ -531,7 +566,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
+                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg">');
                 done();
             });
         });
@@ -547,7 +582,7 @@ describe('Amperize', function () {
 
             amperize.parse('<img src="http://example.com/images/IMG_xyz.jpg">', function (error, result) {
                 expect(error).to.be.null;
-                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg');
+                expect(result).to.contain('<img src="http://example.com/images/IMG_xyz.jpg">');
                 done();
             });
         });
