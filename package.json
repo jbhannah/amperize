@@ -48,8 +48,8 @@
     "nyc": "^14.1.1",
     "rewire": "^4.0.1",
     "semantic-release": "15.13.21",
-    "sinon": "1.17.7",
-    "sinon-chai": "^2.8.0"
+    "sinon": "^7.4.1",
+    "sinon-chai": "^3.3.0"
   },
   "config": {
     "commitizen": {
