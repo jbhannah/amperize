@@ -1,16 +1,9 @@
-sudo: false
 language: node_js
 
-cache:
-  directories:
-    - node_modules
-
-notifications:
-  email: false
-
 node_js:
-  - "10"
-  - '8'
+  - node
+  - 10
+  - 8
 
 before_script:
   - npm prune
@@ -19,7 +12,8 @@ script:
   - npm run test-travis
 
 after_script:
-  - 'npm install coveralls && cat coverage/lcov.info | coveralls'
+  - npm install -g coveralls
+  - cat coverage/lcov.info | coveralls
 
 after_success:
   - npm run semantic-release
