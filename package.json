@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha $(find test -name '*.test.js')",
     "watch": "mocha --watch $(find test -name '*.test.js')",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- $(find test -name '*.test.js')",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- $(find test -name '*.test.js')",
+    "coverage": "nyc npm run test",
+    "test-travis": "nyc --reporter=lcov npm run test",
     "semantic-release": "semantic-release"
   },
   "engines": {
@@ -43,13 +43,13 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "cz-conventional-changelog": "2.1.0",
-    "istanbul": "^0.4.5",
     "mocha": "^6.2.0",
     "nock": "^10.0.6",
+    "nyc": "^14.1.1",
     "rewire": "^4.0.1",
     "semantic-release": "15.13.21",
-    "sinon": "1.17.7",
-    "sinon-chai": "^2.8.0"
+    "sinon": "^7.4.1",
+    "sinon-chai": "^3.3.0"
   },
   "config": {
     "commitizen": {
