@@ -29,7 +29,7 @@
   "homepage": "https://github.com/jbhannah/amperize#readme",
   "dependencies": {
     "async": "^3.0.1",
-    "domutils": "^1.7.0",
+    "domutils": "^2.0.0",
     "emits": "^3.0.0",
     "htmlparser2": "^4.0.0",
     "image-size": "^0.7.4",
