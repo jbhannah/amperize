@@ -31,7 +31,7 @@
     "async": "^3.0.1",
     "domutils": "^1.7.0",
     "emits": "^3.0.0",
-    "htmlparser2": "^3.9.2",
+    "htmlparser2": "^4.0.0",
     "image-size": "^0.7.4",
     "lodash": "^4.17.11",
     "probe-image-size": "^4.0.0",
