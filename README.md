@@ -17,7 +17,7 @@
 ```
 var Amperize = require('amperize');
 
-var html = '<img src="https://example.com/image.jpg" />';
+var html = '<img src="https://via.placeholder.com/640x480.jpg" />';
 
 var amperize = new Amperize();
 
