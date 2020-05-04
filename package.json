@@ -37,7 +37,7 @@
     "probe-image-size": "^5.0.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.4",
-    "uuid": "^7.0.1",
+    "uuid": "^8.0.0",
     "validator": "^13.0.0"
   },
   "devDependencies": {
