@@ -32,7 +32,7 @@
     "domutils": "^2.0.0",
     "emits": "^3.0.0",
     "htmlparser2": "^4.0.0",
-    "image-size": "^0.8.1",
+    "image-size": "^0.9.4",
     "lodash": "^4.17.11",
     "probe-image-size": "^5.0.0",
     "request": "^2.83.0",
