@@ -34,7 +34,7 @@
     "htmlparser2": "^4.0.0",
     "image-size": "^0.8.1",
     "lodash": "^4.17.11",
-    "probe-image-size": "^5.0.0",
+    "probe-image-size": "^7.2.3",
     "request": "^2.83.0",
     "request-promise": "^4.2.4",
     "uuid": "^8.1.0",
