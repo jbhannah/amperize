@@ -559,9 +559,9 @@ describe('Amperize', function () {
         });
 
         it('can handle <img> tag without src and does not transform it', function (done) {
-            amperize.parse('<img><//img><p>some text here</p>', function (error, result) {
+            amperize.parse('<img><p>some text here</p>', function (error, result) {
                 expect(result).to.exist;
-                expect(result).to.be.equal('<img><!--/img--><p>some text here</p>');
+                expect(result).to.be.equal('<img><p>some text here</p>');
                 done();
             });
         });
