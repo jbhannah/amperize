@@ -35,7 +35,7 @@
     "htmlparser2": "^8.0.2",
     "image-size": "^1.0.2",
     "lodash": "^4.17.21",
-    "probe-image-size": "^6.0.0",
+    "probe-image-size": "^7.2.3",
     "uuid": "^9.0.0",
     "validator": "^13.9.0"
   },
